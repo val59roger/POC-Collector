@@ -1,6 +1,5 @@
 package fr.poc.commandeservice;
 
-import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.List;
 
 @RestController
@@ -32,7 +32,7 @@ public class CommandeController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Commande create(@Valid @RequestBody CommandeRequest request) {
+    public Commande create(@RequestBody CommandeRequest request) {
         // Appel HTTP vers le catalog-service
         ProductDto product = catalogClient.getProduct(request.productId());
 
@@ -42,6 +42,9 @@ public class CommandeController {
         }
 
         BigDecimal total = product.price().multiply(BigDecimal.valueOf(request.quantity()));
-        return repository.save(new Commande(product.id(), product.name(), request.quantity(), total));
+        // id = null : il est attribué par le repository
+        Commande order = new Commande(null, product.id(), product.name(),
+                request.quantity(), total, Instant.now());
+        return repository.save(order);
     }
 }
