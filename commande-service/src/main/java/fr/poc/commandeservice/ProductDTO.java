@@ -1,4 +1,4 @@
-package com.poc.commande;
+package fr.poc.commandeservice;
 
 import java.math.BigDecimal;
 

@@ -1,4 +1,4 @@
-package com.poc.commande;
+package fr.poc.commandeservice;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;

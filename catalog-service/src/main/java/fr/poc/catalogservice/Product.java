@@ -1,4 +1,4 @@
-package com.poc.catalog;
+package fr.poc.catalogservice;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

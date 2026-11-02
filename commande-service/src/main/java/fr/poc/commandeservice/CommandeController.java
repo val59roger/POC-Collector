@@ -1,4 +1,4 @@
-package com.poc.commande;
+package fr.poc.commandeservice;
 
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;

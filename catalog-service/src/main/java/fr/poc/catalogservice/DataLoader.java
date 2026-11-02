@@ -1,4 +1,4 @@
-package com.poc.catalog;
+package fr.poc.catalogservice;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;

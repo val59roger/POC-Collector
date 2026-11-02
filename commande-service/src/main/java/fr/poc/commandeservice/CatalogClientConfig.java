@@ -1,4 +1,4 @@
-package com.poc.commande;
+package fr.poc.commandeservice;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

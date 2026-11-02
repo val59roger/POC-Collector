@@ -1,4 +1,4 @@
-package com.poc.commande;
+package fr.poc.commandeservice;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
