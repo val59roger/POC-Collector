@@ -2,5 +2,5 @@ package com.poc.commande;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface OrderRepository extends JpaRepository<Order, Long> {
+public interface CommandeRepository extends JpaRepository<Commande, Long> {
 }

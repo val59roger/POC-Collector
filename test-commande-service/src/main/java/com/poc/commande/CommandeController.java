@@ -14,25 +14,25 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
-@RequestMapping("/orders")
-public class OrderController {
+@RequestMapping("/commandes")
+public class CommandeController {
 
-    private final OrderRepository repository;
+    private final CommandeRepository repository;
     private final CatalogClient catalogClient;
 
-    public OrderController(OrderRepository repository, CatalogClient catalogClient) {
+    public CommandeController(CommandeRepository repository, CatalogClient catalogClient) {
         this.repository = repository;
         this.catalogClient = catalogClient;
     }
 
     @GetMapping
-    public List<Order> findAll() {
+    public List<Commande> findAll() {
         return repository.findAll();
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Order create(@Valid @RequestBody OrderRequest request) {
+    public Commande create(@Valid @RequestBody CommandeRequest request) {
         // Appel HTTP vers le catalog-service
         ProductDto product = catalogClient.getProduct(request.productId());
 
@@ -42,6 +42,6 @@ public class OrderController {
         }
 
         BigDecimal total = product.price().multiply(BigDecimal.valueOf(request.quantity()));
-        return repository.save(new Order(product.id(), product.name(), request.quantity(), total));
+        return repository.save(new Commande(product.id(), product.name(), request.quantity(), total));
     }
 }

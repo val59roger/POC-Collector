@@ -10,8 +10,8 @@ import java.math.BigDecimal;
 import java.time.Instant;
 
 @Entity
-@Table(name = "orders")
-public class Order {
+@Table(name = "commandes")
+public class Commande {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,10 +23,10 @@ public class Order {
     private BigDecimal totalPrice;
     private Instant createdAt;
 
-    protected Order() {
+    protected Commande() {
     }
 
-    public Order(Long productId, String productName, int quantity, BigDecimal totalPrice) {
+    public Commande(Long productId, String productName, int quantity, BigDecimal totalPrice) {
         this.productId = productId;
         this.productName = productName;
         this.quantity = quantity;
