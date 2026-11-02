@@ -1,0 +1,47 @@
+package com.poc.commande;
+
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.math.BigDecimal;
+import java.util.List;
+
+@RestController
+@RequestMapping("/orders")
+public class OrderController {
+
+    private final OrderRepository repository;
+    private final CatalogClient catalogClient;
+
+    public OrderController(OrderRepository repository, CatalogClient catalogClient) {
+        this.repository = repository;
+        this.catalogClient = catalogClient;
+    }
+
+    @GetMapping
+    public List<Order> findAll() {
+        return repository.findAll();
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public Order create(@Valid @RequestBody OrderRequest request) {
+        // Appel HTTP vers le catalog-service
+        ProductDto product = catalogClient.getProduct(request.productId());
+
+        if (product.stock() < request.quantity()) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT,
+                    "Stock insuffisant : " + product.stock() + " disponible(s)");
+        }
+
+        BigDecimal total = product.price().multiply(BigDecimal.valueOf(request.quantity()));
+        return repository.save(new Order(product.id(), product.name(), request.quantity(), total));
+    }
+}
